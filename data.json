@@ -1,0 +1,117 @@
+{
+  "piezas": [
+    {
+      "id": "MTR-001",
+      "nombre": "Bomba de Agua",
+      "categoria": "motor",
+      "precio": 45000,
+      "imagen": "https://www.repuestosbyc.cl/cdn/shop/files/24405895-25195119kor-bomba-de-agua-chevrolet-sonic-cruze-tracker-chevrolet-repuestos-byc-spa-869301.jpg?v=1734466345&width=713",
+      "compatibilidad": [
+        { "marca": "Chevrolet", "modelo": "Sonic", "anio": "2013", "motor": "1.6", "motivo": "Familia Ecotec Gen1." },
+        { "marca": "Chevrolet", "modelo": "Cruze", "anio": "2014", "motor": "1.8", "motivo": "Bloque compatible." }
+      ]
+    },
+    {
+      "id": "MTR-002",
+      "nombre": "Kit Distribución Completo",
+      "categoria": "motor",
+      "precio": 185000,
+      "imagen": "https://acdn-us.mitiendanube.com/stores/005/141/199/products/10003-4f05d7e48dd3b4221817266916303060-1024-1024.webp",
+      "compatibilidad": [
+        { "marca": "Volkswagen", "modelo": "Gol Power", "anio": "2010", "motor": "1.6", "motivo": "Kit original." },
+        { "marca": "Volkswagen", "modelo": "Suran", "anio": "2012", "motor": "1.6", "motivo": "Misma sincronización." }
+      ]
+    },
+  
+    {
+      
+  "id": "CRR-001",
+  "nombre": "Kit Paragolpes Delantero",
+  "categoria": "carroceria",
+  "precio": 125000,
+  "imagen": "https://acdn-us.mitiendanube.com/stores/001/440/707/products/paragolpe-gol-delantero-nacional-16-19-e2fdc165baf218e38516628664628497-1024-1024.webp",
+  "compatibilidad": [
+    { "marca": "Volkswagen", "modelo": "Gol Trend", "anio": "2017", "motor": "1.6", "motivo": "Plataforma PQ24." },
+    { "marca": "Volkswagen", "modelo": "Voyage", "anio": "2017", "motor": "1.6", "motivo": "Mismo frente y diseño estructural." }
+  ]
+
+    },
+    {
+      "id": "CRR-002",
+      "nombre": "Espejo Retrovisor Eléctrico",
+      "categoria": "carroceria",
+      "precio": 55000,
+      "imagen": "https://www.fiatturin.com.ar/wp-content/uploads/2022/04/00020679-1320x990.jpg",
+      "compatibilidad": [
+        { "marca": "Fiat", "modelo": "Cronos", "anio": "2021", "motor": "1.3", "motivo": "Versión con comando eléctrico." },
+        { "marca": "Fiat", "modelo": "Argo", "anio": "2020", "motor": "1.3", "motivo": "Soportes idénticos." }
+      ]
+    },
+    {
+      "id": "SUS-001",
+      "nombre": "Amortiguador Hidráulico",
+      "categoria": "suspension",
+      "precio": 72000,
+      "imagen": "https://acdn-us.mitiendanube.com/stores/006/147/126/products/d_698837-mla77485224351_072024-b-649a939dae3743ed2817528479599841-1024-1024.webp",
+      "compatibilidad": [
+        { "marca": "Toyota", "modelo": "Corolla", "anio": "2019", "motor": "2.0", "motivo": "Repuesto original." },
+        { "marca": "Toyota", "modelo": "Etios", "anio": "2018", "motor": "1.5", "motivo": "Adaptación estándar." }
+      ]
+    },
+    {
+      "id": "SUS-002",
+      "nombre": "Bieleta De Suspensión Delantera",
+      "categoria": "suspension",
+      "precio": 15000,
+      "imagen": "https://autodo.vtexassets.com/arquivos/ids/269212-800-auto?v=639040784499970000&width=800&height=auto&aspect=true",
+      "compatibilidad": [
+        { "marca": "Ford", "modelo": "Fiesta Kinetic", "anio": "2014", "motor": "1.6", "motivo": "Sin ruidos." },
+        { "marca": "Ford", "modelo": "Focus", "anio": "2015", "motor": "2.0", "motivo": "Resistencia reforzada." }
+      ]
+    },
+    {
+      "id": "FLT-001",
+      "nombre": "Filtro de Aire ",
+      "categoria": "filtros",
+      "precio": 12000,
+      "imagen": "https://www.joses.com.ar/web2020/contenido/productos/original/1663609353.png",
+      "compatibilidad": [
+        { "marca": "Peugeot", "modelo": "208", "anio": "2022", "motor": "1.2 PureTech", "motivo": "Mejora admisión." },
+        { "marca": "Citroen", "modelo": "C3", "anio": "2021", "motor": "1.2", "motivo": "Caja de filtro original." }
+      ]
+    },
+    {
+      "id": "ELC-001",
+      "nombre": "Sensor MAF (Flujo de Aire)",
+      "categoria": "electronica",
+      "precio": 28500,
+      "imagen": "https://mccars.com.ar/media/banco_imagenes/AUT-RT%207045.jpg",
+      "compatibilidad": [
+        { "marca": "Ford", "modelo": "Fiesta", "anio": "2014", "motor": "1.6 Sigma", "motivo": "Calibración estándar." },
+        { "marca": "Ford", "modelo": "EcoSport", "anio": "2015", "motor": "1.6 Sigma", "motivo": "Conector idéntico." }
+      ]
+    },
+    {
+      "id": "ELC-002",
+      "nombre": "Bobina de Encendido",
+      "categoria": "electronica",
+      "precio": 35000,
+      "imagen": "https://mccars.com.ar/media/banco_imagenes/TOM-151408.jpg",
+      "compatibilidad": [
+        { "marca": "Renault", "modelo": "Clio Mío", "anio": "2015", "motor": "1.2", "motivo": "Chispa constante." },
+        { "marca": "Renault", "modelo": "Kangoo", "anio": "2016", "motor": "1.6", "motivo": "Alta performance." }
+      ]
+    },
+    {
+      "id": "FRN-001",
+      "nombre": "Pastillas de Freno",
+      "categoria": "frenos",
+      "precio": 32000,
+      "imagen": "https://acdn-us.mitiendanube.com/stores/006/347/913/products/d_nq_np_834379-mla77032359149_062024-f-54cc07c8c423dc636f17580409622049-1024-1024.webp",
+      "compatibilidad": [
+        { "marca": "Toyota", "modelo": "Corolla", "anio": "2019", "motor": "2.0", "motivo": "Pastilla original." },
+        { "marca": "Honda", "modelo": "Civic", "anio": "2018", "motor": "1.5 Turbo", "motivo": "Frenada de alto rendimiento." }
+      ]
+    }
+  ]
+}
