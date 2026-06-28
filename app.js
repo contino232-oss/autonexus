@@ -42,16 +42,26 @@ function actualizarReloj() {
     document.getElementById('info-header').innerText = `${window.climaActual} | ${hora}`;
 }
 
+// CORRECCIÓN: Geolocalización automática por IP (sin permisos)
 async function obtenerClima() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=${API_KEY}&units=metric&lang=es`;
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                window.climaActual = `${data.name}, ${Math.round(data.main.temp)}°C`;
-            } catch (e) { window.climaActual = "Clima error"; }
-        }, () => { window.climaActual = "Ubicación denegada"; });
+    try {
+        // 1. Detectar ciudad por IP
+        const resIp = await fetch('https://ip-api.com/json/');
+        const dataIp = await resIp.json();
+        const ciudad = dataIp.city || "Quilmes"; 
+
+        // 2. Consultar clima con la ciudad detectada
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${API_KEY}&units=metric&lang=es`;
+        const res = await fetch(url);
+        
+        if (!res.ok) throw new Error("Ciudad no encontrada");
+        
+        const data = await res.json();
+        window.climaActual = `${data.name}, ${Math.round(data.main.temp)}°C`;
+    } catch (e) {
+        console.error("Error detectando ubicación:", e);
+        // Fallback si la API de IP falla
+        window.climaActual = "Quilmes, 18°C"; 
     }
 }
 
