@@ -208,3 +208,45 @@ button:hover { background: #b71c1c; }
     50% { opacity: 0.6; }
     100% { opacity: 1; }
 }
+/* Sección de pagos */
+.payment-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+.payment-logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.payment-logos img {
+    height: 30px; /* Tamaño uniforme */
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.payment-logos img:hover {
+    opacity: 1;
+}
+
+.btn-pagar {
+    background-color: #2e7d32; /* Verde exitoso */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.btn-pagar:hover {
+    background-color: #1b5e20;
+}
