@@ -136,6 +136,18 @@ button:hover { background: #b71c1c; }
     overflow-y: auto;
 }
 
+/* Contador del carrito */
+#cart-counter {
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-left: 5px;
+    vertical-align: super;
+}
+
 /* Notificación Toast */
 .notificacion-toast {
     position: fixed;
