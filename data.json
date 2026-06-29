@@ -5,6 +5,7 @@
       "nombre": "Bomba de Agua",
       "categoria": "motor",
       "precio": 45000,
+       "stock": 29,
       "imagen": "https://www.repuestosbyc.cl/cdn/shop/files/24405895-25195119kor-bomba-de-agua-chevrolet-sonic-cruze-tracker-chevrolet-repuestos-byc-spa-869301.jpg?v=1734466345&width=713",
       "compatibilidad": [
         { "marca": "Chevrolet", "modelo": "Sonic", "anio": "2013", "motor": "1.6", "motivo": "Familia Ecotec Gen1." },
@@ -16,6 +17,7 @@
       "nombre": "Kit Distribución Completo",
       "categoria": "motor",
       "precio": 185000,
+       "stock": 15  ,
       "imagen": "https://acdn-us.mitiendanube.com/stores/005/141/199/products/10003-4f05d7e48dd3b4221817266916303060-1024-1024.webp",
       "compatibilidad": [
         { "marca": "Volkswagen", "modelo": "Gol Power", "anio": "2010", "motor": "1.6", "motivo": "Kit original." },
@@ -29,6 +31,7 @@
   "nombre": "Kit Paragolpes Delantero",
   "categoria": "carroceria",
   "precio": 125000,
+   "stock":15,
   "imagen": "https://acdn-us.mitiendanube.com/stores/001/440/707/products/paragolpe-gol-delantero-nacional-16-19-e2fdc165baf218e38516628664628497-1024-1024.webp",
   "compatibilidad": [
     { "marca": "Volkswagen", "modelo": "Gol Trend", "anio": "2017", "motor": "1.6", "motivo": "Plataforma PQ24." },
@@ -41,6 +44,7 @@
       "nombre": "Espejo Retrovisor Eléctrico",
       "categoria": "carroceria",
       "precio": 55000,
+      "stock": 29,
       "imagen": "https://www.fiatturin.com.ar/wp-content/uploads/2022/04/00020679-1320x990.jpg",
       "compatibilidad": [
         { "marca": "Fiat", "modelo": "Cronos", "anio": "2021", "motor": "1.3", "motivo": "Versión con comando eléctrico." },
@@ -52,6 +56,7 @@
       "nombre": "Amortiguador Hidráulico",
       "categoria": "suspension",
       "precio": 72000,
+       "stock": 29,
       "imagen": "https://acdn-us.mitiendanube.com/stores/006/147/126/products/d_698837-mla77485224351_072024-b-649a939dae3743ed2817528479599841-1024-1024.webp",
       "compatibilidad": [
         { "marca": "Toyota", "modelo": "Corolla", "anio": "2019", "motor": "2.0", "motivo": "Repuesto original." },
@@ -63,6 +68,7 @@
       "nombre": "Bieleta De Suspensión Delantera",
       "categoria": "suspension",
       "precio": 15000,
+       "stock": 29,
       "imagen": "https://autodo.vtexassets.com/arquivos/ids/269212-800-auto?v=639040784499970000&width=800&height=auto&aspect=true",
       "compatibilidad": [
         { "marca": "Ford", "modelo": "Fiesta Kinetic", "anio": "2014", "motor": "1.6", "motivo": "Sin ruidos." },
@@ -74,6 +80,7 @@
       "nombre": "Filtro de Aire ",
       "categoria": "filtros",
       "precio": 12000,
+       "stock": 29,
       "imagen": "https://www.joses.com.ar/web2020/contenido/productos/original/1663609353.png",
       "compatibilidad": [
         { "marca": "Peugeot", "modelo": "208", "anio": "2022", "motor": "1.2 PureTech", "motivo": "Mejora admisión." },
@@ -85,6 +92,7 @@
       "nombre": "Sensor MAF (Flujo de Aire)",
       "categoria": "electronica",
       "precio": 28500,
+      "stock": 29,
       "imagen": "https://mccars.com.ar/media/banco_imagenes/AUT-RT%207045.jpg",
       "compatibilidad": [
         { "marca": "Ford", "modelo": "Fiesta", "anio": "2014", "motor": "1.6 Sigma", "motivo": "Calibración estándar." },
@@ -96,6 +104,7 @@
       "nombre": "Bobina de Encendido",
       "categoria": "electronica",
       "precio": 35000,
+       "stock": 29,
       "imagen": "https://mccars.com.ar/media/banco_imagenes/TOM-151408.jpg",
       "compatibilidad": [
         { "marca": "Renault", "modelo": "Clio Mío", "anio": "2015", "motor": "1.2", "motivo": "Chispa constante." },
@@ -107,6 +116,7 @@
       "nombre": "Pastillas de Freno",
       "categoria": "frenos",
       "precio": 32000,
+       "stock": 29,
       "imagen": "https://acdn-us.mitiendanube.com/stores/006/347/913/products/d_nq_np_834379-mla77032359149_062024-f-54cc07c8c423dc636f17580409622049-1024-1024.webp",
       "compatibilidad": [
         { "marca": "Toyota", "modelo": "Corolla", "anio": "2019", "motor": "2.0", "motivo": "Pastilla original." },
