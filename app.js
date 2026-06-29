@@ -12,7 +12,7 @@ async function init() {
         // Sincronizar stock inicial: restamos lo que ya estaba en el carrito al cargar la página
         carrito.forEach(item => {
             const prod = globalPiezas.find(p => p.id === item.id);
-            if (prod) prod.stock--;
+            if (prod && prod.stock > 0) prod.stock--;
         });
 
         renderizar(globalPiezas);
@@ -57,7 +57,7 @@ function quitarDelCarrito(index) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     
     renderizar(globalPiezas); // Refresca el catálogo
-    renderizarCarrito();      // Refresca la vista del carrito
+    renderizarCarrito();      // Refresca la vista del carrito con el nuevo total
     actualizarCarritoUI();    // Refresca el contador
 }
 
@@ -70,12 +70,22 @@ function renderizarCarrito() {
         return;
     }
 
-    listaDiv.innerHTML = carrito.map((p, index) => `
-        <div class="cart-item" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd;">
-            <span>${p.nombre} - ${formatter.format(p.precio)}</span>
-            <button class="btn-eliminar" onclick="quitarDelCarrito(${index})" style="background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Quitar</button>
+    // Calcular el total sumando los precios
+    const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
+
+    listaDiv.innerHTML = `
+        <div style="margin-bottom: 20px;">
+            ${carrito.map((p, index) => `
+                <div class="cart-item" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd; align-items:center;">
+                    <span>${p.nombre} - ${formatter.format(p.precio)}</span>
+                    <button class="btn-eliminar" onclick="quitarDelCarrito(${index})" style="background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Quitar</button>
+                </div>
+            `).join('')}
         </div>
-    `).join('');
+        <div style="text-align: right; font-size: 1.5rem; font-weight: bold; border-top: 2px solid #333; padding-top: 10px;">
+            Total: ${formatter.format(total)}
+        </div>
+    `;
 }
 
 // --- RENDERIZADO GENERAL ---
