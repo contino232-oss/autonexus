@@ -8,11 +8,77 @@ async function init() {
         const res = await fetch('data.json');
         const data = await res.json();
         globalPiezas = data.piezas;
+
+        // Sincronizar stock inicial: restamos lo que ya estaba en el carrito al cargar la página
+        carrito.forEach(item => {
+            const prod = globalPiezas.find(p => p.id === item.id);
+            if (prod) prod.stock--;
+        });
+
         renderizar(globalPiezas);
         setInterval(actualizarReloj, 1000);
         obtenerClima();
+        actualizarCarritoUI(); // Iniciar contador
     } catch (e) { console.error("Error cargando JSON:", e); }
 }
+
+// --- LÓGICA DE CARRITO ---
+
+function actualizarCarritoUI() {
+    const counter = document.getElementById('cart-counter');
+    if (counter) counter.innerText = carrito.length;
+}
+
+function agregarAlCarrito(id) {
+    const producto = globalPiezas.find(p => p.id === id);
+    
+    if (!producto.stock || producto.stock <= 0) {
+        mostrarNotificacion("Sin stock disponible", "#d32f2f");
+        return;
+    }
+
+    carrito.push(producto);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    
+    producto.stock--;
+    renderizar(globalPiezas); // Actualiza la vista del catálogo
+    actualizarCarritoUI();    // Actualiza el contador
+    mostrarNotificacion(`Agregado: ${producto.nombre}`);
+}
+
+function quitarDelCarrito(index) {
+    const item = carrito[index];
+    
+    // Devolver stock al catálogo
+    const prod = globalPiezas.find(p => p.id === item.id);
+    if (prod) prod.stock++;
+    
+    carrito.splice(index, 1);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    
+    renderizar(globalPiezas); // Refresca el catálogo
+    renderizarCarrito();      // Refresca la vista del carrito
+    actualizarCarritoUI();    // Refresca el contador
+}
+
+function renderizarCarrito() {
+    const listaDiv = document.getElementById('lista-carrito');
+    const formatter = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+    
+    if (carrito.length === 0) {
+        listaDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
+        return;
+    }
+
+    listaDiv.innerHTML = carrito.map((p, index) => `
+        <div class="cart-item" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd;">
+            <span>${p.nombre} - ${formatter.format(p.precio)}</span>
+            <button class="btn-eliminar" onclick="quitarDelCarrito(${index})" style="background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Quitar</button>
+        </div>
+    `).join('');
+}
+
+// --- RENDERIZADO GENERAL ---
 
 function renderizar(lista) {
     const contenedor = document.getElementById('contenedor-piezas');
@@ -22,43 +88,17 @@ function renderizar(lista) {
         <div class="pieza-card">
             <img src="${p.imagen}" alt="${p.nombre}">
             <h3>${p.nombre}</h3>
-            
             ${p.stock <= 3 && p.stock > 0 ? `<span class="bajo-stock">⚠️ ¡Últimas ${p.stock} unidades!</span>` : `<p>Stock: ${p.stock || 0}</p>`}
-            
             <span class="price">${formatter.format(p.precio)}</span>
-            
             <div class="comp-box">
                 <p><strong>Aplica para:</strong></p>
                 <ul class="comp-list">
                     ${p.compatibilidad.map(c => `<li>• ${c.marca} ${c.modelo} (${c.anio})</li>`).join('')}
                 </ul>
             </div>
-            
             <button onclick="agregarAlCarrito('${p.id}')">Agregar al Carrito</button>
         </div>
     `).join('');
-}
-
-// --- LÓGICA DE CARRITO Y STOCK ---
-
-function agregarAlCarrito(id) {
-    const producto = globalPiezas.find(p => p.id === id);
-    
-    // Validar Stock
-    if (!producto.stock || producto.stock <= 0) {
-        mostrarNotificacion("Sin stock disponible", "#d32f2f");
-        return;
-    }
-
-    // Agregar al carrito
-    carrito.push(producto);
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    
-    // Descontar stock visualmente
-    producto.stock--;
-    renderizar(globalPiezas); 
-    
-    mostrarNotificacion(`Agregado: ${producto.nombre}`);
 }
 
 function mostrarNotificacion(mensaje, color = "#2e7d32") {
@@ -67,11 +107,10 @@ function mostrarNotificacion(mensaje, color = "#2e7d32") {
     div.style.backgroundColor = color;
     div.textContent = mensaje;
     document.body.appendChild(div);
-    
     setTimeout(() => div.remove(), 3000);
 }
 
-// --- RESTO DE FUNCIONES ---
+// --- UTILIDADES Y CLIMA ---
 
 function actualizarReloj() {
     const ahora = new Date();
@@ -95,7 +134,7 @@ async function obtenerClima() {
 }
 
 function showSection(id) {
-    ['home', 'contacto', 'login'].forEach(s => {
+    ['home', 'contacto', 'login', 'carrito'].forEach(s => {
         const el = document.getElementById(`section-${s}`);
         if(el) el.classList.add('hidden');
     });
