@@ -59,6 +59,7 @@ section { width: 100%; }
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .pieza-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
@@ -117,7 +118,7 @@ button:hover { background: #b71c1c; }
     .navbar nav ul { gap: 10px; }
 }
 
-/* (Mantén todo lo anterior, solo agrega esto al final) */
+/* --- 8. Componentes Adicionales --- */
 
 .comp-box {
     margin: 10px 0;
@@ -132,12 +133,24 @@ button:hover { background: #b71c1c; }
     list-style: none;
     margin-top: 5px;
     max-height: 100px;
-    overflow-y: auto; /* Si hay muchas marcas, se puede hacer scroll */
+    overflow-y: auto;
 }
 
-/* Asegurar que las tarjetas no se deformen */
-.pieza-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/* Notificación Toast */
+.notificacion-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2e7d32;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
 }
