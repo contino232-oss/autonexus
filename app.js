@@ -82,10 +82,26 @@ function renderizarCarrito() {
                 </div>
             `).join('')}
         </div>
-        <div style="text-align: right; font-size: 1.5rem; font-weight: bold; border-top: 2px solid #333; padding-top: 10px;">
+        <div style="text-align: right; font-size: 1.5rem; font-weight: bold; border-top: 2px solid #333; padding-top: 10px; margin-bottom: 20px;">
             Total: ${formatter.format(total)}
         </div>
+
+        <div class="payment-section">
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">Medios de pago seguros:</p>
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex">
+            </div>
+            <button class="btn-pagar" onclick="pagarCarrito()">Finalizar Compra</button>
+        </div>
     `;
+}
+
+function pagarCarrito() {
+    // Redirige al usuario a la plataforma de pagos
+    alert("Redirigiendo a la pasarela de pagos...");
+    window.location.href = "https://www.mercadopago.com.ar"; 
 }
 
 // --- RENDERIZADO GENERAL ---
