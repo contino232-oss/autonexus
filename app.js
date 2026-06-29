@@ -1,6 +1,6 @@
 const API_KEY = 'c6d3627b83d6a27526f247fae1a7a65a';
 let globalPiezas = [];
-let carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Recuperar carrito
+let carrito = JSON.parse(localStorage.getItem('carrito')) || []; 
 window.climaActual = "Cargando clima...";
 
 async function init() {
@@ -22,7 +22,10 @@ function renderizar(lista) {
         <div class="pieza-card">
             <img src="${p.imagen}" alt="${p.nombre}">
             <h3>${p.nombre}</h3>
-            <p>Stock: ${p.stock || 0}</p> <span class="price">${formatter.format(p.precio)}</span>
+            
+            ${p.stock <= 3 && p.stock > 0 ? `<span class="bajo-stock">⚠️ ¡Últimas ${p.stock} unidades!</span>` : `<p>Stock: ${p.stock || 0}</p>`}
+            
+            <span class="price">${formatter.format(p.precio)}</span>
             
             <div class="comp-box">
                 <p><strong>Aplica para:</strong></p>
@@ -51,9 +54,9 @@ function agregarAlCarrito(id) {
     carrito.push(producto);
     localStorage.setItem('carrito', JSON.stringify(carrito));
     
-    // Descontar stock visualmente (opcional, solo para la sesión actual)
+    // Descontar stock visualmente
     producto.stock--;
-    renderizar(globalPiezas); // Re-renderizar para actualizar el número de stock en pantalla
+    renderizar(globalPiezas); 
     
     mostrarNotificacion(`Agregado: ${producto.nombre}`);
 }
@@ -65,7 +68,7 @@ function mostrarNotificacion(mensaje, color = "#2e7d32") {
     div.textContent = mensaje;
     document.body.appendChild(div);
     
-    setTimeout(() => div.remove(), 3000); // Se elimina solo tras 3 segundos
+    setTimeout(() => div.remove(), 3000);
 }
 
 // --- RESTO DE FUNCIONES ---
@@ -100,6 +103,7 @@ function showSection(id) {
     if(target) target.classList.remove('hidden');
 }
 
+// Eventos de Navegación
 document.getElementById('main-logo').addEventListener('click', () => { showSection('home'); renderizar(globalPiezas); });
 document.getElementById('btn-inicio').addEventListener('click', (e) => { e.preventDefault(); showSection('home'); renderizar(globalPiezas); });
 document.getElementById('nav-contacto').addEventListener('click', (e) => { e.preventDefault(); showSection('contacto'); });
