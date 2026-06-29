@@ -41,7 +41,6 @@ body {
 /* --- 3. Layout Principal y Secciones --- */
 main { padding: 2rem 5%; min-height: 80vh; }
 
-/* Evitar que secciones se solapen */
 section { width: 100%; }
 
 /* --- 4. Catálogo / Grilla --- */
@@ -107,10 +106,8 @@ button {
 
 button:hover { background: #b71c1c; }
 
-/* --- 6. Seguridad (La clase oculta) --- */
-.hidden { 
-    display: none !important; 
-}
+/* --- 6. Seguridad --- */
+.hidden { display: none !important; }
 
 /* --- 7. Responsive --- */
 @media (max-width: 768px) {
@@ -136,7 +133,7 @@ button:hover { background: #b71c1c; }
     overflow-y: auto;
 }
 
-/* --- Estilos Carrito con Ícono --- */
+/* Estilos Carrito y Botón Quitar */
 .cart-link {
     position: relative; 
     display: flex;
@@ -155,9 +152,7 @@ button:hover { background: #b71c1c; }
     transition: 0.3s;
 }
 
-.cart-link:hover .cart-icon {
-    stroke: var(--primary);
-}
+.cart-link:hover .cart-icon { stroke: var(--primary); }
 
 #cart-counter {
     position: absolute;
@@ -173,6 +168,28 @@ button:hover { background: #b71c1c; }
     text-align: center;
     line-height: 1.2;
 }
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.btn-eliminar {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem; /* Tamaño compacto */
+    cursor: pointer;
+    transition: 0.2s;
+    margin-left: 10px;
+}
+
+.btn-eliminar:hover { background-color: #d32f2f; }
 
 /* Notificación Toast */
 .notificacion-toast {
@@ -208,6 +225,7 @@ button:hover { background: #b71c1c; }
     50% { opacity: 0.6; }
     100% { opacity: 1; }
 }
+
 /* Sección de pagos */
 .payment-section {
     margin-top: 25px;
@@ -225,17 +243,15 @@ button:hover { background: #b71c1c; }
 }
 
 .payment-logos img {
-    height: 30px; /* Tamaño uniforme */
+    height: 30px; 
     opacity: 0.8;
     transition: 0.3s;
 }
 
-.payment-logos img:hover {
-    opacity: 1;
-}
+.payment-logos img:hover { opacity: 1; }
 
 .btn-pagar {
-    background-color: #2e7d32; /* Verde exitoso */
+    background-color: #2e7d32; 
     color: white;
     padding: 12px 25px;
     border: none;
@@ -247,6 +263,4 @@ button:hover { background: #b71c1c; }
     transition: 0.3s;
 }
 
-.btn-pagar:hover {
-    background-color: #1b5e20;
-}
+.btn-pagar:hover { background-color: #1b5e20; }
