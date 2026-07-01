@@ -9,7 +9,7 @@ async function init() {
         const data = await res.json();
         globalPiezas = data.piezas;
 
-        // Sincronizar stock inicial
+        // Sincronizar stock
         carrito.forEach(item => {
             const prod = globalPiezas.find(p => p.id === item.id);
             if (prod && prod.stock > 0) prod.stock--;
@@ -19,8 +19,41 @@ async function init() {
         setInterval(actualizarReloj, 1000);
         obtenerClima();
         actualizarCarritoUI();
+        // Verificar sesión guardada al iniciar
+        verificarSesion(); 
     } catch (e) { console.error("Error cargando JSON:", e); }
 }
+
+// --- LÓGICA DE LOGIN ---
+
+function verificarSesion() {
+    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+    const navLogin = document.getElementById('nav-login');
+    if (usuarioGuardado && navLogin) {
+        navLogin.innerText = `Hola, ${usuarioGuardado}`;
+        navLogin.style.cursor = "pointer";
+        navLogin.onclick = (e) => { 
+            e.preventDefault(); 
+            if(confirm("¿Cerrar sesión?")) cerrarSesion(); 
+        };
+    }
+}
+
+function cerrarSesion() {
+    localStorage.removeItem('usuarioLogueado');
+    location.reload();
+}
+
+// Escuchar el envío del formulario
+document.getElementById('form-login').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    // Guardamos el usuario (usamos el email como nombre de usuario)
+    localStorage.setItem('usuarioLogueado', email);
+    alert(`Bienvenido/a, ${email}`);
+    showSection('home');
+    verificarSesion();
+});
 
 // --- LÓGICA DE CARRITO ---
 
@@ -57,11 +90,14 @@ function quitarDelCarrito(index) {
 function renderizarCarrito() {
     const listaDiv = document.getElementById('lista-carrito');
     const formatter = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+    
     if (carrito.length === 0) {
         listaDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
         return;
     }
+
     const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
+
     listaDiv.innerHTML = `
         <div style="margin-bottom: 20px;">
             ${carrito.map((p, index) => `
@@ -131,7 +167,6 @@ function actualizarReloj() {
     if(el) el.innerText = `${window.climaActual} | ${hora}`;
 }
 
-// Función auxiliar de caché
 function guardarYSetear(valor, key) {
     localStorage.setItem(key, JSON.stringify({ valor, timestamp: new Date().getTime() }));
     window.climaActual = valor;
@@ -139,7 +174,7 @@ function guardarYSetear(valor, key) {
 
 async function obtenerClima() {
     const CACHE_KEY = 'clima_cache';
-    const CACHE_TIME = 60 * 60 * 1000; // 1 hora
+    const CACHE_TIME = 60 * 60 * 1000; 
     
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY));
     if (cache && (new Date().getTime() - cache.timestamp < CACHE_TIME)) {
@@ -147,7 +182,6 @@ async function obtenerClima() {
         return;
     }
 
-    // Obtener ubicación
     let lat = -34.72, lon = -58.26, city = "Quilmes";
     try {
         const resIp = await fetch('https://ip-api.com/json/');
@@ -159,7 +193,6 @@ async function obtenerClima() {
         }
     } catch (e) { console.warn("Geolocalización falló, usando default"); }
 
-    // Intento 1: OpenWeatherMap
     try {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=es`;
         const res = await fetch(url);
@@ -170,7 +203,6 @@ async function obtenerClima() {
         }
     } catch (e) { console.warn("OpenWeather falló, intentando respaldo..."); }
 
-    // Intento 2: Open-Meteo
     try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`;
         const res = await fetch(url);
@@ -181,7 +213,6 @@ async function obtenerClima() {
         }
     } catch (e) { console.error("Todas las APIs fallaron."); }
 
-    // Final Fallback
     window.climaActual = `${city}, 18°C`;
 }
 
