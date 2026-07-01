@@ -9,7 +9,7 @@ async function init() {
         const data = await res.json();
         globalPiezas = data.piezas;
 
-        // Sincronizar stock inicial: restamos lo que ya estaba en el carrito al cargar la página
+        // Sincronizar stock inicial
         carrito.forEach(item => {
             const prod = globalPiezas.find(p => p.id === item.id);
             if (prod && prod.stock > 0) prod.stock--;
@@ -18,7 +18,7 @@ async function init() {
         renderizar(globalPiezas);
         setInterval(actualizarReloj, 1000);
         obtenerClima();
-        actualizarCarritoUI(); // Iniciar contador
+        actualizarCarritoUI();
     } catch (e) { console.error("Error cargando JSON:", e); }
 }
 
@@ -31,48 +31,37 @@ function actualizarCarritoUI() {
 
 function agregarAlCarrito(id) {
     const producto = globalPiezas.find(p => p.id === id);
-    
     if (!producto.stock || producto.stock <= 0) {
         mostrarNotificacion("Sin stock disponible", "#d32f2f");
         return;
     }
-
     carrito.push(producto);
     localStorage.setItem('carrito', JSON.stringify(carrito));
-    
     producto.stock--;
-    renderizar(globalPiezas); // Actualiza la vista del catálogo
-    actualizarCarritoUI();    // Actualiza el contador
+    renderizar(globalPiezas);
+    actualizarCarritoUI();
     mostrarNotificacion(`Agregado: ${producto.nombre}`);
 }
 
 function quitarDelCarrito(index) {
     const item = carrito[index];
-    
-    // Devolver stock al catálogo
     const prod = globalPiezas.find(p => p.id === item.id);
     if (prod) prod.stock++;
-    
     carrito.splice(index, 1);
     localStorage.setItem('carrito', JSON.stringify(carrito));
-    
-    renderizar(globalPiezas); // Refresca el catálogo
-    renderizarCarrito();      // Refresca la vista del carrito con el nuevo total
-    actualizarCarritoUI();    // Refresca el contador
+    renderizar(globalPiezas);
+    renderizarCarrito();
+    actualizarCarritoUI();
 }
 
 function renderizarCarrito() {
     const listaDiv = document.getElementById('lista-carrito');
     const formatter = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-    
     if (carrito.length === 0) {
         listaDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
         return;
     }
-
-    // Calcular el total sumando los precios
     const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
-
     listaDiv.innerHTML = `
         <div style="margin-bottom: 20px;">
             ${carrito.map((p, index) => `
@@ -85,7 +74,6 @@ function renderizarCarrito() {
         <div style="text-align: right; font-size: 1.5rem; font-weight: bold; border-top: 2px solid #333; padding-top: 10px; margin-bottom: 20px;">
             Total: ${formatter.format(total)}
         </div>
-
         <div class="payment-section">
             <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">Medios de pago seguros:</p>
             <div class="payment-logos">
@@ -99,7 +87,6 @@ function renderizarCarrito() {
 }
 
 function pagarCarrito() {
-    // Redirige al usuario a la plataforma de pagos
     alert("Redirigiendo a la pasarela de pagos...");
     window.location.href = "https://www.mercadopago.com.ar"; 
 }
@@ -109,7 +96,6 @@ function pagarCarrito() {
 function renderizar(lista) {
     const contenedor = document.getElementById('contenedor-piezas');
     const formatter = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-    
     contenedor.innerHTML = lista.map(p => `
         <div class="pieza-card">
             <img src="${p.imagen}" alt="${p.nombre}">
@@ -145,18 +131,58 @@ function actualizarReloj() {
     if(el) el.innerText = `${window.climaActual} | ${hora}`;
 }
 
+// Función auxiliar de caché
+function guardarYSetear(valor, key) {
+    localStorage.setItem(key, JSON.stringify({ valor, timestamp: new Date().getTime() }));
+    window.climaActual = valor;
+}
+
 async function obtenerClima() {
+    const CACHE_KEY = 'clima_cache';
+    const CACHE_TIME = 60 * 60 * 1000; // 1 hora
+    
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if (cache && (new Date().getTime() - cache.timestamp < CACHE_TIME)) {
+        window.climaActual = cache.valor;
+        return;
+    }
+
+    // Obtener ubicación
+    let lat = -34.72, lon = -58.26, city = "Quilmes";
     try {
         const resIp = await fetch('https://ip-api.com/json/');
         const dataIp = await resIp.json();
-        const ciudad = dataIp.city || "Quilmes"; 
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${API_KEY}&units=metric&lang=es`;
+        if (dataIp.status === "success") {
+            lat = dataIp.lat;
+            lon = dataIp.lon;
+            city = dataIp.city;
+        }
+    } catch (e) { console.warn("Geolocalización falló, usando default"); }
+
+    // Intento 1: OpenWeatherMap
+    try {
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=es`;
         const res = await fetch(url);
-        const data = await res.json();
-        window.climaActual = `${data.name}, ${Math.round(data.main.temp)}°C`;
-    } catch (e) {
-        window.climaActual = "Quilmes, 18°C"; 
-    }
+        if (res.ok) {
+            const data = await res.json();
+            guardarYSetear(`${data.name}, ${Math.round(data.main.temp)}°C`, CACHE_KEY);
+            return;
+        }
+    } catch (e) { console.warn("OpenWeather falló, intentando respaldo..."); }
+
+    // Intento 2: Open-Meteo
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`;
+        const res = await fetch(url);
+        if (res.ok) {
+            const data = await res.json();
+            guardarYSetear(`${city}, ${Math.round(data.current.temperature_2m)}°C`, CACHE_KEY);
+            return;
+        }
+    } catch (e) { console.error("Todas las APIs fallaron."); }
+
+    // Final Fallback
+    window.climaActual = `${city}, 18°C`;
 }
 
 function showSection(id) {
@@ -168,7 +194,6 @@ function showSection(id) {
     if(target) target.classList.remove('hidden');
 }
 
-// Eventos de Navegación
 document.getElementById('main-logo').addEventListener('click', () => { showSection('home'); renderizar(globalPiezas); });
 document.getElementById('btn-inicio').addEventListener('click', (e) => { e.preventDefault(); showSection('home'); renderizar(globalPiezas); });
 document.getElementById('nav-contacto').addEventListener('click', (e) => { e.preventDefault(); showSection('contacto'); });
